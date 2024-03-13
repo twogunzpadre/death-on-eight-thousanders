@@ -16,7 +16,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 
 # Load the data using pandas
-df = pd.read_csv('deaths_on_eight-thousanders.csv')
+df = pd.read_csv('https://github.com/twogunzpadre/death-on-eight-thousanders/blob/main/deaths_on_eight-thousanders.csv')
 df.replace("?", np.nan, inplace=True)
 
 missing_data = df.isnull()
@@ -39,6 +39,7 @@ df[['Name', 'Nationality', 'Cause of death', 'Mountain']] = df[
     ['Name', 'Nationality', 'Cause of death', 'Mountain']].astype("str")
 # Initialize the Dash app
 app = dash.Dash(__name__)
+server = app.server
 
 # Set the title of the dashboard
 # app.title = "Automobile Statistics Dashboard"
