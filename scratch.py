@@ -13,7 +13,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
-import dash_bootstrap_components as dbc
+
 
 # Load the data using pandas
 df = pd.read_csv('https://github.com/twogunzpadre/death-on-eight-thousanders/blob/main/deaths_on_eight-thousanders.csv')
