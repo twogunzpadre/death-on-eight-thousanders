@@ -1,0 +1,7 @@
+numpy
+datetime
+dash==2.6.0
+pandas
+plotly.graph_objs
+plotly.express
+dash_bootstrap_component
