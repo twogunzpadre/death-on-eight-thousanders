@@ -38,7 +38,7 @@ df['Month'] = df['Date'].dt.month
 df[['Name', 'Nationality', 'Cause of death', 'Mountain']] = df[
     ['Name', 'Nationality', 'Cause of death', 'Mountain']].astype("str")
 # Initialize the Dash app
-app = dash.Dash(__name__)
+app = Dash(__name__)
 server = app.server
 
 # Set the title of the dashboard
