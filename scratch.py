@@ -5,7 +5,6 @@
 
 import numpy as np
 import datetime
-
 import dash
 from dash import dcc
 from dash import html
@@ -13,10 +12,11 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
+import dash_bootstrap_components as dbc
 
 
 # Load the data using pandas
-df = pd.read_csv('https://github.com/twogunzpadre/death-on-eight-thousanders/blob/main/deaths_on_eight-thousanders.csv')
+df = pd.read_csv('deaths_on_eight-thousanders.csv')
 df.replace("?", np.nan, inplace=True)
 
 missing_data = df.isnull()
@@ -38,11 +38,11 @@ df['Month'] = df['Date'].dt.month
 df[['Name', 'Nationality', 'Cause of death', 'Mountain']] = df[
     ['Name', 'Nationality', 'Cause of death', 'Mountain']].astype("str")
 # Initialize the Dash app
-app = Dash(__name__)
-server = app.server
+
+app = dash.Dash(__name__)
 
 # Set the title of the dashboard
-# app.title = "Automobile Statistics Dashboard"
+app.title = "Automobile Statistics Dashboard"
 
 # ---------------------------------------------------------------------------------
 # -----------------------------------
@@ -61,7 +61,7 @@ app.layout = html.Div([
             style={'textAlign': 'center', 'width': '80%', 'padding': '3px', 'font-size': '20px'}
         ),
         html.Div([
-            html.H4(children='DataFrame Preview'),
+            html.H4(children='Dataframe Narrowed to country Selected'),
             dcc.Graph(
                 id='dataframe-table',
                 figure={
@@ -99,6 +99,28 @@ def update_output(selected_country):
         figure=px.line(dfcountry, x=dfcountry['Year'], y=dfcountry['Counts'],
                        title="Counts of deaths on eight thousanders by Year for " + selected_country))
     return html.Div(className='chart-item', children=[html.Div(children=R_chart1)], style={'display': 'flex'})
+
+@app.callback(
+    Output(component_id='dataframe-table', component_property='figure'),  # Update DataTable figure
+    Input(component_id='country-drop', component_property='value'))
+def update_table(selected_country):
+    # Filter DataFrame for the selected country
+    filtered_df = df[df['Nationality'] == selected_country]
+
+    # Create DataTable figure for the filtered DataFrame
+    data_table = {
+        'data': [{
+            'type': 'table',
+            'header': {
+                'values': filtered_df.columns
+            },
+            'cells': {
+                'values': filtered_df.values.T
+            }
+        }]
+    }
+
+    return data_table
 
 
 # Run the Dash app
