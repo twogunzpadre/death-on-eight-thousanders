@@ -40,6 +40,7 @@ df[['Name', 'Nationality', 'Cause of death', 'Mountain']] = df[
 # Initialize the Dash app
 
 app = dash.Dash(__name__)
+server = app.server
 
 # Set the title of the dashboard
 app.title = "Automobile Statistics Dashboard"
